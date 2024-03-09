@@ -4,5 +4,10 @@
       "name": "api.security.token.secret",
       "type": "java.lang.String",
       "description": "Security Key."
-  }
-] }
+    },
+    {
+      "name": "api.security.token.expiration.time",
+      "type": "java.lang.Long",
+      "description": "Token expiration time in hours."
+    }
+  ] }
