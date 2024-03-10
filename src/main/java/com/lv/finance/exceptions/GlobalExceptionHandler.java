@@ -2,6 +2,7 @@ package com.lv.finance.exceptions;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -27,8 +28,8 @@ public class GlobalExceptionHandler {
         return getValidationErrorMessage(errors);
     }
 
-    @ExceptionHandler
-    ResponseEntity<ErrorMessage> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex){
+    @ExceptionHandler({HttpMessageNotReadableException.class, IllegalArgumentException.class, PropertyReferenceException.class})
+    ResponseEntity<ErrorMessage> HandleBadRequestExceptions(Exception ex){
         return getErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
