@@ -28,7 +28,9 @@ public class SecurityConfiguration {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(RolePathMapping.ANY_REQUEST_WHITELIST).permitAll())
+                        .requestMatchers(RolePathMapping.ANY_REQUEST_WHITELIST).permitAll()
+                        .requestMatchers(RolePathMapping.MANAGER_REQUEST_WHITELIST).hasRole("MANAGER")
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class).build();

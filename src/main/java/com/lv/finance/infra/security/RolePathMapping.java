@@ -7,4 +7,8 @@ public class RolePathMapping {
             "/finances/auth/register"
     };
 
+    public static final String[] MANAGER_REQUEST_WHITELIST = {
+            "/finances/admin/**"
+    };
+
 }
