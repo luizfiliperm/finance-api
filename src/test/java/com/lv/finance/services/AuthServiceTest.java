@@ -72,6 +72,27 @@ public class AuthServiceTest {
         assertNotNull(response.getToken());
     }
 
+    @Test
+    public void testEmailAlreadyRegisteredException(){
+        RegisterDto registerDto = RegisterDto.builder()
+                .name("Login name test")
+                .email("test@example.com")
+                .password("securePassword123")
+                .personalInformation(new PersonalInformationDto(
+                        "888888888",
+                        "01/01/1995",
+                        "Brazilian"))
+                .build();
+
+        authService.register(registerDto);
+
+        try {
+            authService.register(registerDto);
+        } catch (Exception e){
+            assertEquals("Email already registered", e.getMessage());
+        }
+    }
+
 
 
 }
