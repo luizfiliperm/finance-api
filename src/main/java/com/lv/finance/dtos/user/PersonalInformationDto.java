@@ -1,4 +1,4 @@
-package com.lv.finance.dtos.authentication;
+package com.lv.finance.dtos.user;
 
 import com.lv.finance.entities.user.PersonalInformation;
 import com.lv.finance.util.DateUtil;
@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
 public class PersonalInformationDto {
 
