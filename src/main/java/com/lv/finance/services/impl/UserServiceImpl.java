@@ -1,5 +1,6 @@
 package com.lv.finance.services.impl;
 
+import com.lv.finance.entities.user.User;
 import com.lv.finance.repositories.UserRepository;
 import com.lv.finance.services.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +23,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
+
+    @Override
+    public Boolean userExistsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username){
