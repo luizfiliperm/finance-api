@@ -1,5 +1,6 @@
 package com.lv.finance.dtos.authentication;
 
+import com.lv.finance.dtos.user.PersonalInformationDto;
 import com.lv.finance.entities.user.User;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
