@@ -10,6 +10,8 @@ import com.lv.finance.infra.security.services.JwtService;
 import com.lv.finance.services.AuthService;
 import com.lv.finance.services.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +24,13 @@ public class AuthServiceImpl implements AuthService {
 
     private final JwtService jwtService;
 
-    public AuthServiceImpl(UserService userService, PasswordEncoder passwordEncoder, JwtService jwtService){
+    private final AuthenticationManager authenticationManager;
+
+    public AuthServiceImpl(UserService userService, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager){
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.authenticationManager = authenticationManager;
     }
 
     @Override
@@ -47,6 +52,15 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponseDto login(LoginDto loginDto) {
-        return null;
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginDto.getEmail(),
+                        loginDto.getPassword()
+                )
+        );
+
+        User user = (User) userService.loadUserByEmail(loginDto.getEmail());
+
+        return new AuthResponseDto(user, jwtService.generateToken(user));
     }
 }
