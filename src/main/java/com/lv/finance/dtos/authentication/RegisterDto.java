@@ -24,14 +24,14 @@ public class RegisterDto {
 
     @Valid
     @NotNull(message = "The personal information is required")
-    private PersonalInformationDto personalInformationDto;
+    private PersonalInformationDto personalInformation;
 
     public User convertToUser(){
         return User.builder()
                 .name(this.name)
                 .email(this.email)
                 .password(this.password)
-                .personalInformation(this.personalInformationDto.convertToPersonalInformation())
+                .personalInformation(this.personalInformation.convertToPersonalInformation())
                 .build();
     }
 }
