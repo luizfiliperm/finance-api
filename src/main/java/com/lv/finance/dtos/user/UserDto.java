@@ -1,5 +1,6 @@
 package com.lv.finance.dtos.user;
 
+import com.lv.finance.dtos.wallet.WalletDto;
 import com.lv.finance.entities.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,11 +20,14 @@ public class UserDto {
 
     private PersonalInformationDto personalInformation;
 
+    private WalletDto wallet;
+
     public UserDto(User user){
         this.id = user.getId();
         this.name = user.getName();
         this.email = user.getEmail();
         this.role = user.getRole().toString();
         this.personalInformation = new PersonalInformationDto(user.getPersonalInformation());
+        this.wallet = new WalletDto(user.getWallet());
     }
 }
