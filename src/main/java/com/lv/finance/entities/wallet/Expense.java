@@ -37,4 +37,7 @@ public class Expense {
     @JoinColumn(name = "wallet_id")
     private Wallet wallet;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 }
