@@ -1,13 +1,13 @@
 package com.lv.finance.services;
 
+import com.lv.finance.dtos.PageResponse;
 import com.lv.finance.dtos.wallet.IncomeDto;
-import com.lv.finance.dtos.wallet.WalletPageResponse;
 
 public interface WalletService {
 
     IncomeDto addIncome(IncomeDto incomeDto, Long userId);
 
-    WalletPageResponse<IncomeDto> getWalletWithIncomes(Long userId);
+    PageResponse<IncomeDto> findAllIncomes(Long userId, int pageNo, int pageSize, String sortBy, String sortDir);
 
     void deleteIncome(Long id, Long userId);
 

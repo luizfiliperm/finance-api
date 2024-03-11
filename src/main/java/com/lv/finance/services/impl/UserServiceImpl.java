@@ -61,7 +61,12 @@ public class UserServiceImpl implements UserService {
 
         List<UserDto> content = usersList.stream().map(UserDto::new).toList();
 
-        return new PageResponse<>(content, usersPage.getNumber(), usersPage.getSize(), usersPage.getTotalElements(), usersPage.getTotalPages(), usersPage.isLast());
+        return new PageResponse<>(content,
+                usersPage.getNumber(),
+                usersPage.getSize(),
+                usersPage.getTotalElements(),
+                usersPage.getTotalPages(),
+                usersPage.isLast());
     }
 
     @Override

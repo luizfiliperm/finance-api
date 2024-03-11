@@ -10,7 +10,7 @@ public class AppConstants {
 
     public static final String DEFAULT_SORT_DIRECTION = "asc";
 
-    public static final String DEFAULT_WALLET_SORT_BY = "date_time";
+    public static final String DEFAULT_WALLET_SORT_BY = "dateTime";
 
     public static final String DEFAULT_WALLET_SORT_DIRECTION = "desc";
 }
