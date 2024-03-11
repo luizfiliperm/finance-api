@@ -1,11 +1,14 @@
 package com.lv.finance.services;
 
 import com.lv.finance.dtos.PageResponse;
+import com.lv.finance.dtos.user.PersonalInformationDto;
 import com.lv.finance.dtos.user.UserDeleteDto;
 import com.lv.finance.dtos.user.UserDto;
+import com.lv.finance.dtos.user.UserReceiveDto;
 import com.lv.finance.entities.user.PersonalInformation;
 import com.lv.finance.entities.user.User;
 import com.lv.finance.entities.user.enums.UserRole;
+import com.lv.finance.util.DateUtil;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +19,7 @@ import java.time.LocalDate;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -59,6 +63,29 @@ public class UserServiceTest {
     public void testLoadUserByEmail() {
         User user = (User) userService.loadUserByEmail("test@example.com");
         assertNotNull(user);
+    }
+
+    @Test
+    public void testUpdateUser(){
+        User user = getUser("updateUser@example.com");
+
+        UserReceiveDto userReceiveDto = UserReceiveDto.builder()
+                .name("Updated User")
+                .currentPassword("securePassword123")
+                .newPassword("otherPassword")
+                .personalInformation(new PersonalInformationDto(
+                        PersonalInformation.builder()
+                        .phoneNumber("888888888")
+                        .birthDate(LocalDate.of(1997, 1, 1))
+                        .nationality("American").build()))
+                .build();
+
+        UserDto updatedUser = userService.update(userReceiveDto, user.getId());
+
+        assertNotEquals(user.getName(), updatedUser.getName());
+        assertNotEquals(user.getPersonalInformation().getPhoneNumber(), updatedUser.getPersonalInformation().getPhoneNumber());
+        assertNotEquals(user.getPersonalInformation().getNationality(), updatedUser.getPersonalInformation().getNationality());
+        assertNotEquals(user.getPersonalInformation().getBirthDate(), DateUtil.formatStringToLocalDate(updatedUser.getPersonalInformation().getBirthDate()));
     }
 
     @Test
