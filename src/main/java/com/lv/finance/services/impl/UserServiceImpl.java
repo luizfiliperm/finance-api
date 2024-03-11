@@ -14,15 +14,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -69,12 +67,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     public UserDto update(UserReceiveDto userReceiveDto, Long userId) {
 
-        User user = userRepository.findByEmail(userReceiveDto.getEmail())
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new FinanceException("User not found", HttpStatus.NOT_FOUND));
-
-        if(!user.getId().equals(userId)){
-            throw new FinanceException("User not found", HttpStatus.FORBIDDEN);
-        }
 
         if(!passwordMatches(userReceiveDto.getCurrentPassword(), user.getPassword())){
             throw new FinanceException("Invalid password", HttpStatus.BAD_REQUEST);
@@ -84,19 +78,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return new UserDto(userRepository.save(user));
     }
 
-
-    @Override
-    public UserDetails loadUserByUsername(String username){
-        return loadUserByEmail(username);
-    }
-
     private boolean passwordMatches(String password, String encodedPassword){
         return passwordEncoder.matches(password, encodedPassword);
     }
 
     private void updateUser(UserReceiveDto userReceiveDto, User user){
         user.setName(userReceiveDto.getName());
-        user.setEmail(userReceiveDto.getEmail());
         user.setPassword(passwordEncoder.encode(userReceiveDto.getNewPassword()));
         user.setPersonalInformation(userReceiveDto.getPersonalInformation().convertToPersonalInformation());
     }

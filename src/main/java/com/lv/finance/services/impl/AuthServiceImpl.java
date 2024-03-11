@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -68,5 +68,12 @@ public class AuthServiceImpl implements AuthService {
         User user = (User) userService.loadUserByEmail(loginDto.getEmail());
 
         return new AuthResponseDto(user, jwtService.generateToken(user));
+    }
+
+    @Override
+    public Long extractUserId(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+
+        return user.getId();
     }
 }

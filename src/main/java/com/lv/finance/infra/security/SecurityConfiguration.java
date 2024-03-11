@@ -29,6 +29,7 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(RolePathMapping.ANY_REQUEST_WHITELIST).permitAll()
+                        .requestMatchers(RolePathMapping.LOGGED_REQUEST_WHITELIST).hasAnyRole("USER", "MANAGER")
                         .requestMatchers(RolePathMapping.MANAGER_REQUEST_WHITELIST).hasRole("MANAGER")
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

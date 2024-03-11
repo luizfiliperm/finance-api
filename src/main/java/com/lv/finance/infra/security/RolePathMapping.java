@@ -11,4 +11,8 @@ public class RolePathMapping {
             "/finances/admin/**"
     };
 
+    public static final String[] LOGGED_REQUEST_WHITELIST = {
+            "/finances/users"
+    };
+
 }
