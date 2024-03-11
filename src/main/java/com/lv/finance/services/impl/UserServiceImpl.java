@@ -1,6 +1,7 @@
 package com.lv.finance.services.impl;
 
 import com.lv.finance.dtos.PageResponse;
+import com.lv.finance.dtos.user.UserDeleteDto;
 import com.lv.finance.dtos.user.UserDto;
 import com.lv.finance.dtos.user.UserReceiveDto;
 import com.lv.finance.entities.user.User;
@@ -76,6 +77,22 @@ public class UserServiceImpl implements UserService {
 
         updateUser(userReceiveDto, user);
         return new UserDto(userRepository.save(user));
+    }
+
+    @Override
+    public void delete(UserDeleteDto userDeleteDto, Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new FinanceException("User not found", HttpStatus.NOT_FOUND));
+
+        if(!userDeleteDto.getPassword().matches(userDeleteDto.getConfirmPassword())){
+            throw new FinanceException("Passwords don't match", HttpStatus.BAD_REQUEST);
+        }
+
+        if(!passwordMatches(userDeleteDto.getPassword(), user.getPassword())){
+            throw new FinanceException("Invalid password", HttpStatus.BAD_REQUEST);
+        }
+
+        userRepository.delete(user);
     }
 
     private boolean passwordMatches(String password, String encodedPassword){
