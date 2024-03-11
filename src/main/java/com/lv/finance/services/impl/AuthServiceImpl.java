@@ -5,6 +5,7 @@ import com.lv.finance.dtos.authentication.LoginDto;
 import com.lv.finance.dtos.authentication.RegisterDto;
 import com.lv.finance.entities.user.User;
 import com.lv.finance.entities.user.enums.UserRole;
+import com.lv.finance.entities.wallet.Wallet;
 import com.lv.finance.exceptions.FinanceException;
 import com.lv.finance.infra.security.services.JwtService;
 import com.lv.finance.services.AuthService;
@@ -16,6 +17,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -44,6 +47,9 @@ public class AuthServiceImpl implements AuthService {
         User user = registerDto.convertToUser();
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(UserRole.ROLE_USER);
+        user.setWallet(Wallet.builder()
+                .balance(BigDecimal.ZERO)
+                .user(user).build());
 
         userService.save(user);
 
