@@ -34,4 +34,7 @@ public class Wallet {
 
     @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Expense> expenses;
+
+    @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Category> expenseCategories;
 }

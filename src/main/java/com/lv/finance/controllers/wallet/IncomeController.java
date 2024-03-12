@@ -24,7 +24,7 @@ public class IncomeController {
     }
 
     @GetMapping
-    public ResponseEntity<PageResponse<IncomeDto>> getWalletWithIncomes(
+    public ResponseEntity<PageResponse<IncomeDto>> getAllIncomes(
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int page,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int size,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_WALLET_SORT_BY, required = false) String sortBy,
