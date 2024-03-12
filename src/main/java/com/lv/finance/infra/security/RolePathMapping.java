@@ -18,6 +18,8 @@ public class RolePathMapping {
             "/finances/wallet/incomes/**",
             "/finances/wallet/categories",
             "/finances/wallet/categories/**",
+            "finances/wallet/expenses",
+            "finances/wallet/expenses/**"
     };
 
 }

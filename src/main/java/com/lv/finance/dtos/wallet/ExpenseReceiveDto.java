@@ -6,6 +6,7 @@ import com.lv.finance.exceptions.FinanceException;
 import com.lv.finance.util.DateUtil;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +25,7 @@ public class ExpenseReceiveDto {
     @NotBlank(message = "The name is required")
     private  String name;
 
-    @NotEmpty(message = "The amount is required")
+    @NotNull(message = "The amount is required")
     private BigDecimal amount;
 
     @NotBlank(message = "The payment method is required")
@@ -34,7 +35,7 @@ public class ExpenseReceiveDto {
     @Pattern(regexp = DateUtil.LOCAL_DATE_TIME_REGEX, message = "Invalid date time, the correct format is " + DateUtil.LOCAL_DATE_TIME_FORMAT)
     private String dateTime;
 
-    @NotEmpty
+    @NotNull
     private Long categoryId;
 
     public Expense convertToExpense(){

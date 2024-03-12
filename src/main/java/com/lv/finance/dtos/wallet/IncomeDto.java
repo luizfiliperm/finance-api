@@ -6,6 +6,7 @@ import com.lv.finance.exceptions.FinanceException;
 import com.lv.finance.util.DateUtil;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,7 +27,7 @@ public class IncomeDto {
     @NotBlank(message = "The name is required")
     private String name;
 
-    @NotEmpty(message = "The amount is required")
+    @NotNull(message = "The amount is required")
     private BigDecimal amount;
 
     @NotBlank(message = "The income type is required")

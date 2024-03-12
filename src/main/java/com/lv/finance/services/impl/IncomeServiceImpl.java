@@ -9,6 +9,7 @@ import com.lv.finance.exceptions.FinanceException;
 import com.lv.finance.repositories.IncomeRepository;
 import com.lv.finance.repositories.WalletRepository;
 import com.lv.finance.services.IncomeService;
+import com.lv.finance.services.WalletService;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,13 +24,18 @@ import java.util.List;
 @Service
 public class IncomeServiceImpl implements IncomeService {
 
+    private final WalletService walletService;
+
     private final WalletRepository walletRepository;
 
     private final IncomeRepository incomeRepository;
 
-    public IncomeServiceImpl(WalletRepository walletRepository, IncomeRepository incomeRepository) {
+    public IncomeServiceImpl(WalletRepository walletRepository,
+                             IncomeRepository incomeRepository,
+                             WalletService walletService) {
         this.walletRepository = walletRepository;
         this.incomeRepository = incomeRepository;
+        this.walletService = walletService;
     }
 
     @Override
@@ -40,7 +46,7 @@ public class IncomeServiceImpl implements IncomeService {
         income.setWallet(getWallet(userId));
         incomeRepository.save(income);
 
-        increaseWalletBalance(income.getWallet(), income.getAmount());
+        walletService.increaseWalletBalance(income.getWallet(), income.getAmount());
 
         return new IncomeDto(income);
     }
@@ -69,7 +75,7 @@ public class IncomeServiceImpl implements IncomeService {
     @Override
     public void deleteIncome(Long id, Long userId) {
         Income income = incomeRepository.findByIdAndWalletId(id, getWallet(userId).getId());
-        decreaseWalletBalance(income.getWallet(), income.getAmount());
+        walletService.decreaseWalletBalance(income.getWallet(), income.getAmount());
         incomeRepository.delete(income);
     }
 
@@ -96,29 +102,18 @@ public class IncomeServiceImpl implements IncomeService {
 
     }
 
-
-
     private Wallet getWallet(Long userId){
         return walletRepository.findByUserId(userId);
     }
 
-    private void increaseWalletBalance(Wallet wallet, BigDecimal amount){
-        wallet.setBalance(wallet.getBalance().add(amount));
-        walletRepository.save(wallet);
-    }
-
-    private void decreaseWalletBalance(Wallet wallet, BigDecimal amount){
-        wallet.setBalance(wallet.getBalance().subtract(amount));
-        walletRepository.save(wallet);
-    }
 
     private void updateWalletBalance(Income updatedIncome, Income income, Wallet wallet) {
         if(!updatedIncome.getAmount().equals(income.getAmount())){
             BigDecimal difference = updatedIncome.getAmount().subtract(income.getAmount());
             if(difference.compareTo(BigDecimal.ZERO) > 0){
-                increaseWalletBalance(wallet, difference);
+                walletService.increaseWalletBalance(wallet, difference);
             } else {
-                decreaseWalletBalance(wallet, difference.abs());
+                walletService.decreaseWalletBalance(wallet, difference.abs());
             }
         }
     }
