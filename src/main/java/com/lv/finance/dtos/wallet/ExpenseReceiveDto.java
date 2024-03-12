@@ -1,7 +1,7 @@
 package com.lv.finance.dtos.wallet;
 
-import com.lv.finance.entities.wallet.Income;
-import com.lv.finance.entities.wallet.enums.IncomeType;
+import com.lv.finance.entities.wallet.Expense;
+import com.lv.finance.entities.wallet.enums.PaymentMethod;
 import com.lv.finance.exceptions.FinanceException;
 import com.lv.finance.util.DateUtil;
 import jakarta.validation.constraints.NotBlank;
@@ -19,42 +19,34 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 @Data
-public class IncomeDto {
-
-    private Long id;
+public class ExpenseReceiveDto {
 
     @NotBlank(message = "The name is required")
-    private String name;
+    private  String name;
 
     @NotEmpty(message = "The amount is required")
     private BigDecimal amount;
 
-    @NotBlank(message = "The income type is required")
-    private String incomeType;
+    @NotBlank(message = "The payment method is required")
+    private String paymentMethod;
 
     @NotBlank(message = "The date time is required")
     @Pattern(regexp = DateUtil.LOCAL_DATE_TIME_REGEX, message = "Invalid date time, the correct format is " + DateUtil.LOCAL_DATE_TIME_FORMAT)
     private String dateTime;
 
-    public IncomeDto(Income income){
-        this.id = income.getId();
-        this.name = income.getName();
-        this.amount = income.getAmount();
-        this.incomeType = income.getIncomeType().toString();
-        this.dateTime = DateUtil.formatLocalDateTimeToString(income.getDateTime());
-    }
+    @NotEmpty
+    private Long categoryId;
 
-    public Income convertToIncome(){
+    public Expense convertToExpense(){
         try {
-            return Income.builder()
+            return Expense.builder()
                     .name(this.name)
                     .amount(this.amount)
-                    .incomeType(IncomeType.valueOf(this.incomeType.toUpperCase()))
+                    .paymentMethod(PaymentMethod.valueOf(this.paymentMethod.toUpperCase()))
                     .dateTime(DateUtil.formatStringToLocalDateTime(this.dateTime))
                     .build();
         } catch (IllegalArgumentException e) {
-            throw new FinanceException("Invalid income type, the correct types are 'monthly' or 'sporadic'", HttpStatus.BAD_REQUEST);
+            throw new FinanceException("Invalid payment method, the correct methods are 'credit' and 'debit'", HttpStatus.BAD_REQUEST);
         }
     }
-
 }
