@@ -9,7 +9,6 @@ import com.lv.finance.entities.wallet.Wallet;
 import com.lv.finance.exceptions.FinanceException;
 import com.lv.finance.repositories.CategoryRepository;
 import com.lv.finance.repositories.ExpenseRepository;
-import com.lv.finance.repositories.IncomeRepository;
 import com.lv.finance.repositories.WalletRepository;
 import com.lv.finance.services.ExpenseService;
 import com.lv.finance.services.WalletService;

@@ -2,7 +2,6 @@ package com.lv.finance.dtos.user;
 
 import com.lv.finance.dtos.wallet.WalletDto;
 import com.lv.finance.entities.user.User;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

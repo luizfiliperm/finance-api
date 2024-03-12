@@ -3,7 +3,6 @@ package com.lv.finance.services;
 import com.lv.finance.dtos.PageResponse;
 import com.lv.finance.dtos.wallet.CategoryDto;
 
-import java.util.List;
 
 public interface CategoryService {
 

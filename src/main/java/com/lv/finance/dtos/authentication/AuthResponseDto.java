@@ -1,6 +1,5 @@
 package com.lv.finance.dtos.authentication;
 
-import com.lv.finance.dtos.user.PersonalInformationDto;
 import com.lv.finance.dtos.user.UserDto;
 import com.lv.finance.entities.user.User;
 import lombok.Data;
