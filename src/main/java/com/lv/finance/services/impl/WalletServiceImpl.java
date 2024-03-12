@@ -5,13 +5,16 @@ import com.lv.finance.dtos.wallet.IncomeDto;
 
 import com.lv.finance.entities.wallet.Income;
 import com.lv.finance.entities.wallet.Wallet;
+import com.lv.finance.exceptions.FinanceException;
 import com.lv.finance.repositories.IncomeRepository;
 import com.lv.finance.repositories.WalletRepository;
 import com.lv.finance.services.WalletService;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -65,13 +68,35 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     public void deleteIncome(Long id, Long userId) {
-
+        Income income = incomeRepository.findByIdAndWalletId(id, getWallet(userId).getId());
+        decreaseWalletBalance(income.getWallet(), income.getValue());
+        incomeRepository.delete(income);
     }
 
     @Override
-    public IncomeDto updateIncome(IncomeDto incomeDto, Long userId) {
-        return null;
+    @Transactional
+    public IncomeDto updateIncome(IncomeDto incomeDto, Long userId, Long incomeId) {
+        try {
+            Income income = incomeRepository.findByIdAndWalletId(incomeId, getWallet(userId).getId());
+            
+            Income updatedIncome = incomeDto.convertToIncome();
+            Wallet wallet = getWallet(userId);
+
+            updatedIncome.setId(incomeId);
+            updatedIncome.setWallet(wallet);
+
+            updateWalletBalance(updatedIncome, income, wallet);
+            incomeRepository.save(updatedIncome);
+
+
+            return new IncomeDto(updatedIncome);
+        } catch (Exception e) {
+            throw new FinanceException("Income not found!", HttpStatus.BAD_REQUEST);
+        }
+
     }
+
+
 
     private Wallet getWallet(Long userId){
         return walletRepository.findByUserId(userId);
@@ -81,5 +106,22 @@ public class WalletServiceImpl implements WalletService {
         wallet.setBalance(wallet.getBalance().add(amount));
         walletRepository.save(wallet);
     }
+
+    private void decreaseWalletBalance(Wallet wallet, BigDecimal amount){
+        wallet.setBalance(wallet.getBalance().subtract(amount));
+        walletRepository.save(wallet);
+    }
+
+    private void updateWalletBalance(Income updatedIncome, Income income, Wallet wallet) {
+        if(!updatedIncome.getValue().equals(income.getValue())){
+            BigDecimal difference = updatedIncome.getValue().subtract(income.getValue());
+            if(difference.compareTo(BigDecimal.ZERO) > 0){
+                increaseWalletBalance(wallet, difference);
+            } else {
+                decreaseWalletBalance(wallet, difference.abs());
+            }
+        }
+    }
+    
 
 }

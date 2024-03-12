@@ -37,14 +37,14 @@ public class IncomeController {
         return ResponseEntity.ok(walletService.addIncome(incomeDto, authService.extractUserId(authentication)));
     }
 
-    @PutMapping
-    public ResponseEntity<IncomeDto> updateIncome(@RequestBody IncomeDto incomeDto, Authentication authentication) {
-        return ResponseEntity.ok(walletService.updateIncome(incomeDto, authService.extractUserId(authentication)));
+    @PutMapping("/{incomeId}")
+    public ResponseEntity<IncomeDto> updateIncome(@RequestBody IncomeDto incomeDto, @PathVariable Long incomeId, Authentication authentication) {
+        return ResponseEntity.ok(walletService.updateIncome(incomeDto, authService.extractUserId(authentication), incomeId));
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deleteIncome(@RequestParam(value = "id") Long id, Authentication authentication) {
-        walletService.deleteIncome(id, authService.extractUserId(authentication));
+    @DeleteMapping("/{incomeId}")
+    public ResponseEntity<Void> deleteIncome(@PathVariable Long incomeId, Authentication authentication) {
+        walletService.deleteIncome(incomeId, authService.extractUserId(authentication));
         return ResponseEntity.noContent().build();
     }
 

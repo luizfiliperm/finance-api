@@ -11,6 +11,6 @@ public interface WalletService {
 
     void deleteIncome(Long id, Long userId);
 
-    IncomeDto updateIncome(IncomeDto incomeDto, Long userId);
+    IncomeDto updateIncome(IncomeDto incomeDto, Long userId, Long incomeId);
 
 }
