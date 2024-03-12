@@ -40,7 +40,7 @@ public class IncomeServiceImpl implements IncomeService {
         income.setWallet(getWallet(userId));
         incomeRepository.save(income);
 
-        increaseWalletBalance(income.getWallet(), income.getValue());
+        increaseWalletBalance(income.getWallet(), income.getAmount());
 
         return new IncomeDto(income);
     }
@@ -69,7 +69,7 @@ public class IncomeServiceImpl implements IncomeService {
     @Override
     public void deleteIncome(Long id, Long userId) {
         Income income = incomeRepository.findByIdAndWalletId(id, getWallet(userId).getId());
-        decreaseWalletBalance(income.getWallet(), income.getValue());
+        decreaseWalletBalance(income.getWallet(), income.getAmount());
         incomeRepository.delete(income);
     }
 
@@ -113,8 +113,8 @@ public class IncomeServiceImpl implements IncomeService {
     }
 
     private void updateWalletBalance(Income updatedIncome, Income income, Wallet wallet) {
-        if(!updatedIncome.getValue().equals(income.getValue())){
-            BigDecimal difference = updatedIncome.getValue().subtract(income.getValue());
+        if(!updatedIncome.getAmount().equals(income.getAmount())){
+            BigDecimal difference = updatedIncome.getAmount().subtract(income.getAmount());
             if(difference.compareTo(BigDecimal.ZERO) > 0){
                 increaseWalletBalance(wallet, difference);
             } else {

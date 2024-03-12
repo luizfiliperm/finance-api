@@ -28,8 +28,8 @@ public class Income {
     @Enumerated(EnumType.STRING)
     private IncomeType incomeType;
 
-    @Column(name = "value")
-    private BigDecimal value;
+    @Column(name = "amount")
+    private BigDecimal amount;
 
     @Column(name = "date_time")
     private LocalDateTime dateTime;

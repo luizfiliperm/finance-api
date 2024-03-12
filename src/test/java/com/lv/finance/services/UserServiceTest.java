@@ -8,6 +8,7 @@ import com.lv.finance.dtos.user.UserReceiveDto;
 import com.lv.finance.entities.user.PersonalInformation;
 import com.lv.finance.entities.user.User;
 import com.lv.finance.entities.user.enums.UserRole;
+import com.lv.finance.entities.wallet.Wallet;
 import com.lv.finance.util.DateUtil;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
@@ -155,6 +157,9 @@ public class UserServiceTest {
                 .build();
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setWallet(Wallet.builder()
+                .balance(BigDecimal.ZERO)
+                .user(user).build());
         return userService.save(user);
     }
 

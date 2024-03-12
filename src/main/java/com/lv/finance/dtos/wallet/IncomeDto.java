@@ -25,8 +25,8 @@ public class IncomeDto {
     @NotBlank(message = "The name is required")
     private String name;
 
-    @NotBlank(message = "The value is required")
-    private BigDecimal value;
+    @NotBlank(message = "The amount is required")
+    private BigDecimal amount;
 
     @NotBlank(message = "The income type is required")
     private String incomeType;
@@ -38,7 +38,7 @@ public class IncomeDto {
     public IncomeDto(Income income){
         this.id = income.getId();
         this.name = income.getName();
-        this.value = income.getValue();
+        this.amount = income.getAmount();
         this.incomeType = income.getIncomeType().toString();
         this.dateTime = DateUtil.formatLocalDateTimeToString(income.getDateTime());
     }
@@ -47,7 +47,7 @@ public class IncomeDto {
         try {
             return Income.builder()
                     .name(this.name)
-                    .value(this.value)
+                    .amount(this.amount)
                     .incomeType(IncomeType.valueOf(this.incomeType.toUpperCase()))
                     .dateTime(DateUtil.formatStringToLocalDateTime(this.dateTime))
                     .build();

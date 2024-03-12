@@ -27,8 +27,8 @@ public class Expense {
     @Column(name = "payment_method")
     private PaymentMethod paymentMethod;
 
-    @Column(name = "value")
-    private BigDecimal value;
+    @Column(name = "amount")
+    private BigDecimal amount;
 
     @Column(name = "date_time")
     private LocalDateTime dateTime;
