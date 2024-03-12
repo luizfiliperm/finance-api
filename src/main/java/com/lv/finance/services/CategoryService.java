@@ -15,6 +15,6 @@ public interface CategoryService {
 
     CategoryDto update(Long categoryId, CategoryDto categoryDto, Long userId);
 
-    PageResponse<CategoryDto> findAll(Long userId);
+    PageResponse<CategoryDto> findAll(int page, int size, String sortBy, String sortDir, Long userId);
 
 }

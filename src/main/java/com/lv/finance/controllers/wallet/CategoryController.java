@@ -29,13 +29,13 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<PageResponse<CategoryDto>> getAllCategories(
+    public ResponseEntity<PageResponse<CategoryDto>> findAll(
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int page,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int size,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
             @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir,
             Authentication authentication) {
-        return ResponseEntity.ok(categoryService.findAll(authService.extractUserId(authentication)));
+        return ResponseEntity.ok(categoryService.findAll(page, size, sortBy, sortDir, authService.extractUserId(authentication)));
     }
 
     @PostMapping
