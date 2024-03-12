@@ -5,6 +5,7 @@ import com.lv.finance.dtos.wallet.IncomeDto;
 import com.lv.finance.services.AuthService;
 import com.lv.finance.services.IncomeService;
 import com.lv.finance.util.AppConstants;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -33,12 +34,12 @@ public class IncomeController {
     }
 
     @PostMapping
-    public ResponseEntity<IncomeDto> addIncome(@RequestBody IncomeDto incomeDto, Authentication authentication) {
+    public ResponseEntity<IncomeDto> addIncome(@Valid @RequestBody IncomeDto incomeDto, Authentication authentication) {
         return ResponseEntity.ok(incomeService.addIncome(incomeDto, authService.extractUserId(authentication)));
     }
 
     @PutMapping("/{incomeId}")
-    public ResponseEntity<IncomeDto> updateIncome(@RequestBody IncomeDto incomeDto, @PathVariable Long incomeId, Authentication authentication) {
+    public ResponseEntity<IncomeDto> updateIncome(@Valid @RequestBody IncomeDto incomeDto, @PathVariable Long incomeId, Authentication authentication) {
         return ResponseEntity.ok(incomeService.updateIncome(incomeDto, authService.extractUserId(authentication), incomeId));
     }
 

@@ -13,6 +13,7 @@ public class RolePathMapping {
 
     public static final String[] LOGGED_REQUEST_WHITELIST = {
             "/finances/users",
+            "/finances/wallet",
             "/finances/wallet/incomes",
             "/finances/wallet/incomes/**"
     };
