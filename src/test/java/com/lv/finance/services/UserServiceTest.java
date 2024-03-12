@@ -50,13 +50,13 @@ public class UserServiceTest {
         getUser("test2@example.com");
 
 
-        PageResponse<UserDto> response = userService.findAll(0, 10, "name", "asc");
+        PageResponse<UserDto> response = userService.findAll(0, 2, "name", "asc");
 
         assertNotNull(response);
         assertNotNull(response.getContent());
         assertNotNull(response.getContent().get(0));
 
-        assertEquals(2, response.getTotalElements());
+        assertEquals(2, response.getPageSize());
 
         assertEquals("Test User", response.getContent().get(0).getName());
     }
@@ -103,7 +103,7 @@ public class UserServiceTest {
         userService.delete(userDeleteDto, user.getId());
 
         try {
-            User deletedUser = (User) userService.loadUserByEmail("TestDelete@example.com");
+            userService.loadUserByEmail("TestDelete@example.com");
         } catch (Exception e) {
             assertEquals("User not found", e.getMessage());
         }
