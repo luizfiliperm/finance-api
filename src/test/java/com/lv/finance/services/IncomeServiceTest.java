@@ -2,6 +2,7 @@ package com.lv.finance.services;
 
 import com.lv.finance.dtos.PageResponse;
 import com.lv.finance.dtos.wallet.IncomeDto;
+import com.lv.finance.dtos.wallet.WalletDto;
 import com.lv.finance.entities.user.PersonalInformation;
 import com.lv.finance.entities.user.User;
 import com.lv.finance.entities.user.enums.UserRole;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
@@ -31,13 +33,19 @@ public class IncomeServiceTest {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Autowired
+    WalletService walletService;
+
     @Test
     public void testAddIncome(){
         User user = getUser("addincomeuser@example.com");
 
         IncomeDto incomeDto = addIncome(user.getId(), "11/04/2024 20:57");
 
+        WalletDto walletDto = walletService.getWallet(user.getId());
+
         assertNotNull(incomeDto.getId());
+        assertEquals(walletDto.getBalance(), incomeDto.getAmount().setScale(2, RoundingMode.HALF_UP));
     }
 
     @Test
@@ -67,7 +75,9 @@ public class IncomeServiceTest {
 
         IncomeDto incomeDto = addIncome(user.getId(), "12/04/2024 10:05");
 
+
         incomeService.deleteIncome(incomeDto.getId(), user.getId());
+        WalletDto walletDto = walletService.getWallet(user.getId());
 
         PageResponse<IncomeDto> response = incomeService.findAllIncomes(user.getId(),
                 0,
@@ -76,6 +86,7 @@ public class IncomeServiceTest {
                 "desc");
 
         assertEquals(0, response.getTotalElements());
+        assertEquals(new BigDecimal("0.00"), walletDto.getBalance());
     }
 
     private User getUser(String email) {
