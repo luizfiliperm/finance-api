@@ -83,7 +83,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private Date getExpirationDate(){
-        return new Date(System.currentTimeMillis() + 1000 * 60 * EXPIRATION_TIME);
+        return new Date(System.currentTimeMillis() + 1000 * 60 * 60 * EXPIRATION_TIME);
     }
 
 
