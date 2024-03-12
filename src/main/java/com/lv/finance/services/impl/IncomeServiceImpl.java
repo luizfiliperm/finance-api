@@ -8,7 +8,7 @@ import com.lv.finance.entities.wallet.Wallet;
 import com.lv.finance.exceptions.FinanceException;
 import com.lv.finance.repositories.IncomeRepository;
 import com.lv.finance.repositories.WalletRepository;
-import com.lv.finance.services.WalletService;
+import com.lv.finance.services.IncomeService;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,13 +21,13 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Service
-public class WalletServiceImpl implements WalletService {
+public class IncomeServiceImpl implements IncomeService {
 
     private final WalletRepository walletRepository;
 
     private final IncomeRepository incomeRepository;
 
-    public WalletServiceImpl(WalletRepository walletRepository, IncomeRepository incomeRepository) {
+    public IncomeServiceImpl(WalletRepository walletRepository, IncomeRepository incomeRepository) {
         this.walletRepository = walletRepository;
         this.incomeRepository = incomeRepository;
     }

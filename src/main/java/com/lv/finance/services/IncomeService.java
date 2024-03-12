@@ -3,7 +3,7 @@ package com.lv.finance.services;
 import com.lv.finance.dtos.PageResponse;
 import com.lv.finance.dtos.wallet.IncomeDto;
 
-public interface WalletService {
+public interface IncomeService {
 
     IncomeDto addIncome(IncomeDto incomeDto, Long userId);
 
