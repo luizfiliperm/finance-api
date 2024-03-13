@@ -363,10 +363,10 @@ Query Parameters
 
 | Parameter  | Type   | Description                                  | Required | Default |
 |------------|--------|----------------------------------------------|----------|---------|
-| pageNo     | number | Page number for pagination                   | Yes      | 0       |
-| pageSize   | number | Number of items per page                     | Yes      | 10      |
-| sortBy     | string | Field to sort the results                    | Yes      | id      |
-| sortDir    | string | Sorting direction ('asc' or 'desc')          | Yes      | asc     |
+| pageNo     | number | Page number for pagination                   | No       | 0       |
+| pageSize   | number | Number of items per page                     | No       | 10      |
+| sortBy     | string | Field to sort the results                    | No       | id      |
+| sortDir    | string | Sorting direction ('asc' or 'desc')          | No       | asc     |
 
 Response
 - **200 OK**
@@ -501,10 +501,10 @@ Query Parameters
 
 | Parameter  | Type   | Description                                  | Required | Default |
 |------------|--------|----------------------------------------------|----------|---------|
-| pageNo     | number | Page number for pagination                   | Yes      | 0       |
-| pageSize   | number | Number of items per page                     | Yes      | 10      |
-| sortBy     | string | Field to sort the results                    | Yes      | dateTime|
-| sortDir    | string | Sorting direction ('asc' or 'desc')          | Yes      | desc    |
+| pageNo     | number | Page number for pagination                   | No       | 0       |
+| pageSize   | number | Number of items per page                     | No       | 10      |
+| sortBy     | string | Field to sort the results                    | No       | dateTime|
+| sortDir    | string | Sorting direction ('asc' or 'desc')          | No       | desc    |
 
 Response
 - **200 OK**
@@ -605,10 +605,10 @@ Query Parameters
 
 | Parameter  | Type   | Description                                  | Required | Default |
 |------------|--------|----------------------------------------------|----------|---------|
-| pageNo     | number | Page number for pagination                   | Yes      | 0       |
-| pageSize   | number | Number of items per page                     | Yes      | 10      |
-| sortBy     | string | Field to sort the results                    | Yes      | id      |
-| sortDir    | string | Sorting direction ('asc' or 'desc')          | Yes      | asc     |
+| pageNo     | number | Page number for pagination                   | No       | 0       |
+| pageSize   | number | Number of items per page                     | No       | 10      |
+| sortBy     | string | Field to sort the results                    | No       | id      |
+| sortDir    | string | Sorting direction ('asc' or 'desc')          | No       | asc     |
 
 Response
 - **200 OK**
