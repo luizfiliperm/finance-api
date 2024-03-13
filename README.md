@@ -5,7 +5,6 @@
  <a href="#tech">Technologies</a> • 
  <a href="#started">Getting Started</a> • 
   <a href="#routes">API Endpoints</a> •
- <a href="#colab">Collaborators</a> •
  <a href="#contribute">Contribute</a>
 </p>
 
@@ -666,4 +665,14 @@ Response
      "last": true
    }
   ```
-  
+<h2 id="contribute">📫 Contribute</h2>
+
+Feel Free to contribute to our project! Follow these steps:
+
+1. `git clone https://github.com/luizfiliperm/finance-api.git`
+2. `git checkout -b feature/NAME`
+3. Make your changes and commits. Be sure to adhere to our contribution guidelines, if available.
+4. Push your branch to GitHub: `git push origin feature/NAME`
+5. Open a Pull Request explaining the problem solved or feature made, if exists, append screenshot of visual modifications and wait for the review!
+
+Thank you for contributing!
